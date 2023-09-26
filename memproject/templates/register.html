@@ -10,9 +10,9 @@
                     {{ form.username.label(class = "form-control-label")}}
 
                     {% if form.username.errors %}
-                        {{ form.username.label(class = "form-control form-control-ig is-invalid")}}
+                        {{ form.username(class = "form-control form-control-lg is-invalid")}}
                         <div class = "invalid-feedback">
-                            {% for error in form.username.errors %}
+                            {% for errors in form.username.errors %}
                                 <span>{{ errors }}</span>
                             {% endfor %}
                         </div>
