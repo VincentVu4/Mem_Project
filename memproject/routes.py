@@ -40,9 +40,11 @@ def login():
             return redirect(url_for('home'))
         else:
             flash(f'Login unsuccessful. Please check your email and password.')
-            
-        
     return render_template("login.html", title = "Login", form=form)
+
+@app.route("/account")
+def account():
+    return render_template("account.html", title = "Account")
 
 @app.route("/logout")
 def logout():
