@@ -3,14 +3,32 @@ import secrets
 from PIL import Image
 from flask import Flask, render_template, url_for, flash, redirect, request
 from memproject import app, db, bcrypt
-from memproject.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from memproject.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from memproject.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
+
+
+posts = [
+    {
+        'author': 'Corey Schafer',
+        'title': 'Blog Post 1',
+        'content': 'First post content',
+        'date_posted': 'April 20, 2018'
+    },
+    {
+        'author': 'Jane Doe',
+        'title': 'Blog Post 2',
+        'content': 'Second post content',
+        'date_posted': 'April 21, 2018'
+    }
+]
+
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    posts = Post.query.all()
+    return render_template("home.html", posts = posts)
 
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
@@ -51,7 +69,6 @@ def save_picture(form_picture):
     output_size = (125, 125)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
-
     i.save(picture_path)
     return picture_fn
 
@@ -77,3 +94,15 @@ def account():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/new_post", methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='New Post', form=form, legend='New Post')
