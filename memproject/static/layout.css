@@ -24,7 +24,8 @@ body {
     font-weight: 500;
   }
   
-  .content-section {
+  .content-section2,
+  .content-section{
     display: flex;
     justify-content: center;
     background: #ffffff;
@@ -32,8 +33,13 @@ body {
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
-    width: 935px;
+    width: 1107px;
   }
+
+  .content-section2{
+    justify-content: space-around;
+  }
+
   .form-group{
     width: 400px;
   }
@@ -84,3 +90,4 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+
