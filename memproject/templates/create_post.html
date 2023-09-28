@@ -5,7 +5,7 @@
         <form method = "post" action = "">
             {{ form.hidden_tag() }}
             <fieldset class = "form-group">
-                <legend class = "border-bottom mb-4">New Post</legend>
+                <legend class = "border-bottom mb-4">{{ legend }}</legend>
                 <div class = "form-group">
                     {{ form.title.label(class = "form-control-label") }}
 
@@ -39,7 +39,13 @@
             </fieldset>
             <div class = "form-group">
                 {{ form.submit(class = "btn btn-outline-info") }}
+                {% if legend == 'Update Post' %} 
+                    {{ form.delete(class = "btn btn-outline-danger ml-3") }}
+                {% endif %}
+              
             </div>
+            
+
         </form>
     </div>
 
