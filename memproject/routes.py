@@ -100,11 +100,15 @@ def logout():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
-        db.session.add(post)
-        db.session.commit()
-        flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            post = Post(title=form.title.data, content=form.content.data, image_file_post = picture_file, author=current_user)
+            db.session.add(post)
+            db.session.commit()
+            flash('Your post has been created!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Your post has not been created!', 'danger')
     return render_template('create_post.html', title='New Post', form=form, legend= "New Post")
 
 @app.route("/post/<int:post_id>")
@@ -120,7 +124,9 @@ def update_post(post_id):
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
-        if form.submit.data:
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            post.image_file_post = picture_file
             post.title = form.title.data
             post.content = form.content.data
             db.session.commit()

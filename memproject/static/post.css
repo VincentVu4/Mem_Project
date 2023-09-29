@@ -7,14 +7,11 @@
     margin-left: -175px;
 }
 
-
-
 .media-content-section{
     max-width: 300px;
     background-color: white;
   }
   
-
 .article-metadata{
     display: flex;
     align-items: center;
@@ -48,3 +45,7 @@
     background-color: rgb(235, 234, 234);
 }
 
+.post-picture{
+    width: 300px;
+    background-size: contain;
+}
