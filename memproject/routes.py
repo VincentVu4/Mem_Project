@@ -125,9 +125,10 @@ def update_post(post_id):
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            post.image_file_post = picture_file
+        if form.submit.data:
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                post.image_file_post = picture_file
             post.title = form.title.data
             post.content = form.content.data
             db.session.commit()
@@ -149,7 +150,7 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash("Your post has sucessfully been deleted!", "info")
-    return render_template("home.html")
+    return redirect(url_for("home"))
 
 
 def send_reset_email(user):
